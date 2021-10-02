@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  params2.txt: |
+    parameter21=value1
+    parameter22=value2
+    parameter23=value3
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: my-config-map-3

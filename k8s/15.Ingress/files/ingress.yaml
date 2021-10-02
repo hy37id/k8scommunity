@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - chmurowisko.pl
+    secretName: tls-secret
+  rules:
+#  - host: chmurowisko.pl
+   - http:
+      paths:
+        - path: /srv1
+          pathType: Prefix
+          backend:
+            service: 
+              name: service1-service
+              port: 
+                number: 5678
+        - path: /srv2
+          pathType: Prefix
+          backend:
+            service:
+              name: service2-service
+              port: 
+                number: 5678
+

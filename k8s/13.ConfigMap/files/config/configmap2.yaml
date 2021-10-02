@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  configmap2.yaml: ""
+  params1.txt: |
+    parameter11=value1
+    parameter12=value2
+    parameter13=value3
+  params2.txt: |
+    parameter21=value1
+    parameter22=value2
+    parameter23=value3
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: my-config-map-2
