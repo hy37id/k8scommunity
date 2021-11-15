@@ -27,6 +27,32 @@
 
 7. Delete the pod using ```kubectl delete pod my-liveness-pod --grace-period=1``` command.
 
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-liveness-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+  - name: myapp-container
+    image: busybox
+    command: ['sh', '-c', 'echo Welcome to Kubernetes! && sleep 3600']
+    livenessProbe:
+      exec:
+        command:
+        - echo
+        - testing pod liveness
+      initialDelaySeconds: 5
+      periodSeconds: 5
+EOF    
+```
+
 
 ## Task 2: Creating pod with readiness probe.
 
@@ -53,9 +79,35 @@
 FIELD**. Wait for pod to be ready.
 ![img](./img/readines.png)
 
+
 11. Press **CTRL+C**.
 
 12. Delete the pod using ```kubectl delete pod my-readiness-pod --grace-period=1``` command.
+
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-readiness-pod
+spec:
+  containers:
+  - name: myapp-container
+    image: nginx
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 5
+EOF    
+```
+
+
 ## END LAB
 
 <br><br>

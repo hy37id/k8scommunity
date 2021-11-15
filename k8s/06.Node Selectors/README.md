@@ -48,6 +48,35 @@ Set label **type** to three different values, i.e.
 All pods are spread across all nodes
 ![img](./img/rs1.png)
 
+
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: "nginx:1.20.0"   
+EOF
+```
+
 ## Task 3: Creating ReplicaSet of nginx Pods on prod node
 
 1. Create new file by typing ```nano replica_set_node_selector.yaml```.
@@ -72,8 +101,35 @@ kubectl delete -f replica_set.yaml
 kubectl delete -f replica_set_node_selector.yaml
 ```
 
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend-selector
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "nginx:1.20.0"
+      nodeSelector:
+        type: prod
+EOF
+```
+
+
 ## END LAB
 
 <br><br>
 
-<center><p>&copy; 2019 Chmurowisko Sp. z o.o.<p></center>
+<center><p>&copy; 2021 Chmurowisko Sp. z o.o.<p></center>

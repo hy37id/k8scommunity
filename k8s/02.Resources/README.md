@@ -21,6 +21,29 @@
 
 5. Check if there is a pod created by typing ```kubectl get pods```.
 
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-resources-pod
+spec:
+  containers:
+  - name: myapp-container
+    image: busybox
+    command: ['sh', '-c', 'echo Welcome to Kubernetes! && sleep 3600']
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+EOF     
+```
 
 ## Task 2: Examinig pod settings
 
@@ -47,6 +70,32 @@
 6. Describe the pod: ```kubectl describe pod cpu-stress-pod```. Note that scheduler failed to schedule a pod due to insufficient resources available.
 
 7. Delete the pod ```kubectl delete pod cpu-stress-pod```
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-stress-pod
+spec:
+  containers:
+  - name: cpu-stress
+    image: vish/stress
+    resources:
+      limits:
+        cpu: "1"
+      requests:
+        cpu: "0.5"
+    args:
+    - -cpus
+    - "2"
+EOF  
+```
+
+
 
 ## END LAB
 

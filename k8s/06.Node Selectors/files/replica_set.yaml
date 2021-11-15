@@ -1,14 +1,20 @@
-apiVersion: extensions/v1beta1
+---
+apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
   name: frontend
+  labels:
+    app: frontend
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
   template:
     metadata:
       labels:
         app: frontend
     spec:
       containers:
-        - name: frontend
-          image: "nginx:1.20.0"
+      - name: frontend
+        image: "nginx:1.20.0"          

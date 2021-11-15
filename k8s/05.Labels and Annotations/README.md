@@ -26,6 +26,62 @@
 ![img](./img/pods_labels.png)
 
 
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-prod
+  labels:
+    app: myapp
+    tier: frontend
+    version: 1.0.0
+    environment: production
+spec:
+  containers:
+  - name: myapp-container
+    image: nginx
+    ports:
+    - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-test
+  labels:
+    app: myapp
+    tier: frontend
+    version: 1.1.0
+    environment: test
+spec:
+  containers:
+  - name: myapp-container
+    image: nginx
+    ports:
+    - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-dev
+  labels:
+    app: myapp
+    tier: frontend
+    version: 1.2.0
+    environment: dev
+spec:
+  containers:
+  - name: myapp-container
+    image: nginx
+    ports:
+    - containerPort: 80
+EOF
+```
+
+
 ## Task 2: Modifying labels
 
 Labels can also be applied (or updated) on objects after they are created.
@@ -97,6 +153,28 @@ or
 ```kubectl describe pod annotations-demo```
 
 ![img](./img/pods_annotations.png)
+
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: annotations-demo
+  annotations:
+    imageregistry: "https://hub.docker.com/"
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.20.0
+    ports:
+    - containerPort: 80
+EOF
+```
+
 
 ## END LAB
 
