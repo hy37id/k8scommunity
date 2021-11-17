@@ -19,6 +19,37 @@
 
 4. Type ```kubectl apply -f depl.yaml``` and press enter.
 
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.20.0
+        ports:
+        - containerPort: 80
+EOF
+```
+
+
 ## Task 2: Examinig the deplyment
 
 1. Run ```kubectl get deployments``` to check if the Deployment was created.
@@ -98,7 +129,7 @@ You should have now *nginx* ver. 1.20.1 in the headers.
 
 and edit the file:
 * set replicas to: 5
-* set image to: nginx:1.17.3
+* set image to: nginx:1.20.1
 * to deployment's **spec** add:
 
 ```
@@ -115,6 +146,46 @@ annotations:
   kubernetes.io/change-cause: "Image change"
 ```
 If you're not quite qure how to do it, you can use [depl2.yaml file](depl2.yaml)
+
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+  annotations:
+    kubernetes.io/change-cause: "Image change"
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: nginx
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.20.1
+        ports:
+        - containerPort: 80
+EOF
+```
+
+
+
 
 1. Update the Deployment using ```kubectl apply -f depl.yaml``` or ```kubectl apply -f depl2.yaml``` command.
 

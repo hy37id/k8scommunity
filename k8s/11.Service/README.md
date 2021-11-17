@@ -34,6 +34,36 @@ kubectl get pods -l run=my-nginx -o yaml | grep podIP
 ```
 ![img](./img/s1.png)
 
+
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx
+spec:
+  selector:
+    matchLabels:
+      run: my-nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: my-nginx
+    spec:
+      containers:
+      - name: my-nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+EOF
+```
+
+
 ## Task 2: Creating Service
 
 1. Create *Service* running following command:
@@ -55,6 +85,28 @@ A Service is backed by a group of Pods. These Pods are exposed through endpoints
 ```kubectl describe svc my-nginx ```
 
 ![img](./img/s3.png)
+
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx
+  labels:
+    run: my-nginx
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    run: my-nginx
+EOF
+```
+
 
 ## Task 3: Accessing the Service from within the cluster using DNS
 

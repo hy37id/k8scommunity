@@ -7,7 +7,7 @@ metadata:
   annotations:
     kubernetes.io/change-cause: "Image change"
 spec:
-  replicas: 5
+  replicas: 4
   selector:
     matchLabels:
       app: nginx
@@ -23,6 +23,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.17.3
+        image: nginx:1.20.0
         ports:
         - containerPort: 80
