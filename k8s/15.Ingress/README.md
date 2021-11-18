@@ -55,6 +55,41 @@ You should have two services now
 
 ![img](./img/services.png)
 
+
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: service1-app
+  labels:
+    app: service1
+spec:
+  containers:
+    - name: service1-app
+      image: hashicorp/http-echo
+      args:
+        - "-text=service1"
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: service1-service
+spec:
+  selector:
+    app: service1
+  ports:
+    - port: 5678 # Default port for image
+EOF
+```
+
+
 ## Task 3: Creating Ingress object
 
 1. Create a new file by running ```nano ingress.yaml```.
@@ -86,6 +121,48 @@ You should get different responses from both services you deployed in task 3.
 * ```kubectl delete -f service1.yaml```
 * ```kubectl delete -f cloud-generic.yaml```
 * ```kubectl delete -f mandatory.yaml```
+
+
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - chmurowisko.pl
+    secretName: tls-secret
+  rules:
+#  - host: chmurowisko.pl
+   - http:
+      paths:
+        - path: /srv1
+          pathType: Prefix
+          backend:
+            service: 
+              name: service1-service
+              port: 
+                number: 5678
+        - path: /srv2
+          pathType: Prefix
+          backend:
+            service:
+              name: service2-service
+              port: 
+                number: 5678
+EOF
+```
+
 
 
 ## END LAB

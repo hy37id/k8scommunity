@@ -77,6 +77,31 @@ and check the ConfigMap ```kubectl get configmap my-config-map-3 -o yaml```
 
 4. Create ConfigMap by running: ```kubectl apply -f cm.yaml```
 
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config-map-4
+  namespace: default
+data:
+  special.how: very
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config-map-5
+  namespace: default
+data:
+  log_level: INFO
+EOF
+```
+
+
 ## Task 4: Using ConfigMap as container environment variables.
 
 You will create a Pod with two environment variables.
@@ -96,6 +121,37 @@ The Pod echoed its env variables.
 ![img](./img/cf4.png)
 
 6. Delete the pod: ```kubectl delete pod dapi-test-pod```
+
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dapi-test-pod
+spec:
+  containers:
+    - name: test-container
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh", "-c", "env" ]
+      env:
+        - name: SPECIAL_LEVEL_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: my-config-map-4
+              key: special.how
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: my-config-map-5
+              key: log_level
+  restartPolicy: Never
+EOF  
+```
+
 
 ## Task 5: Adding ConfigMap data to a Volume
 
@@ -124,6 +180,39 @@ The Pod is still running, so you can exec a few commands inside it
 ![img](./img/cf6.png)
 
 7. Please delete the Pod: ```kubectl delete pod dapi-test-pod``` and ConfigMaps ```delete --all configmaps```
+
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dapi-test-pod
+spec:
+  containers:
+    - name: test-container
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh", "-c", "ls /etc/config/ && sleep 3600" ]
+      volumeMounts:
+      - name: my-config-map-2-volume
+        mountPath: /etc/config/map2
+      - name: my-config-map-3-volume
+        mountPath: /etc/config/map3
+  volumes:
+    - name: my-config-map-2-volume
+      configMap:
+        name: my-config-map-2
+    - name: my-config-map-3-volume
+      configMap:
+        name: my-config-map-3
+  restartPolicy: Never
+EOF
+```
+
+
 ## END LAB
 
 <br><br>

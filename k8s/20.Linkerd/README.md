@@ -14,7 +14,7 @@ If you do not have *linkerd* cli installed follow next 3 steps:
 ```
 curl -sL https://run.linkerd.io/install | sh
 ```
-2. Add *linkerd* to ypur path
+2. Add *linkerd* to your path
 ```
 export PATH=$PATH:$HOME/.linkerd2/bin
 ```

@@ -110,6 +110,35 @@ and check the Secret:
 
 ```kubectl delete pod mypod```
 
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: k8s.gcr.io/busybox
+    command: [ "/bin/sh", "-c", "ls /etc/foo && sleep 3600" ]
+    volumeMounts:
+    - name: secret-volume
+      mountPath: "/etc/foo"
+  volumes:
+  - name: secret-volume
+    secret:
+      secretName: mysecret
+      items:
+      - key: password
+        path: password
+EOF
+```
+
+
 ## Task 3: Using Secrets as Environment Variables
 
 1. Create a new file by running ```nano pod-env.yaml```.
@@ -130,6 +159,36 @@ and check the Secret:
 
 6. Please, delete the Pod
 ```kubectl delete pod secret-env-pod``` and secrets ```kubectl delete secrets --all```
+
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-env-pod
+spec:
+  containers:
+  - name: mycontainer
+    image: k8s.gcr.io/busybox
+    command: [ "/bin/sh", "-c", "env" ]
+    env:
+      - name: SECRET_USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: mysecret
+            key: password
+      - name: SECRET_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: mysecret
+            key: password
+  restartPolicy: Never
+EOF
+```
 
 ## END LAB
 
