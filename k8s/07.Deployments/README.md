@@ -21,6 +21,36 @@ In this task you will create a deployment containing twree replicas od nginx.
 4. Type ``kubectl apply -f deployment.yaml`` and press enter.
 
 
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.17.3
+        ports:
+        - containerPort: 80
+EOF
+```
+
+
 ## Task 2: Exploring Deployment
 
 The Deployment is managind ReplicaSet. Let's see the label selector used by Deployment.
@@ -58,6 +88,8 @@ As expected you have 4 replicas of nginx Pod.
 Remember, Kubernetes is self-healing system. The top-level Deployment object is managing this ReplicaSet. When you adjust the number of replicas to one, it no longer matches the desired state of the deployment, which has replicas set to 4.
 
 7. Please delete the deployment: ```kubectl delete -f deployment.yaml```
+
+
 
 ## END LAB
 

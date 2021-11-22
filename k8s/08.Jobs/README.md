@@ -33,6 +33,29 @@ As you can see, the Job has one event and is still running
 6. After a while Job finishes
 ![img](./img/pi2.png)
 
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi
+spec:
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: perl
+        command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+      restartPolicy: Never
+  backoffLimit: 4
+EOF
+```
+
+
 ## Task 2: Examinig results
 
 1. To list all the Pods that belong to a Job run:
@@ -101,6 +124,34 @@ Now you can see **LAST SCHEDULE**
 4. Please delete the CronJob:
 
 ```kubectl delete cronjob hello```
+
+
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Welcome to the Kubernetes
+          restartPolicy: OnFailure
+EOF
+```
+
 
 ## END LAB
 

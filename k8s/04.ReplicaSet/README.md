@@ -26,6 +26,31 @@
 ![img](./img/replicaset1.png)
 
 
+The example of manifest
+
+```yaml
+cat <<EOF | kubectl -n default apply -f -
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "nginx:1.17.3"
+EOF
+```
+
 ## Task 2: Inspecting ReplicaSet and its behaviour
 
 1. Execute following command:
@@ -79,4 +104,4 @@ Now you should have 5 pods running inside ReplicaSet.
 
 <br><br>
 
-<center><p>&copy; 2019 Chmurowisko Sp. z o.o.<p></center>
+<center><p>&copy; 2021 Chmurowisko Sp. z o.o.<p></center>
