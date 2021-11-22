@@ -502,6 +502,55 @@ https://github.com/derailed/k9s/releases/
 ![img](./img/k9s.png)
 
 
+5.  Pluto
+
+
+Kubernetes sometimes deprecates apiVersions. Most notably, a large number of deprecations happened in the 1.16 release. This is fine, and it's a fairly easy thing to deal with. However, it can be difficult to find all the places where you might have used a version that will be deprecated in your next upgrade.
+
+You might think, "I'll just ask the api-server to tell me!", but this is fraught with danger. If you ask the api-server to give you deployments.v1.apps, and the deployment was deployed as deployments.v1beta1.extensions, the api-server will quite happily convert the api version and return a manifest with apps/v1. This is fairly well outlined in the discussion in this issue.
+
+So, long story short, finding the places where you have deployed a deprecated apiVersion can be challenging. This is where pluto comes in. You can use pluto to check a couple different places where you might have placed a deprecated version:
+
+    Infrastructure-as-Code repos: Pluto can check both static manifests and Helm charts for deprecated apiVersions
+    Live Helm releases: Pluto can check both Helm 2 and Helm 3 releases running in your cluster for deprecated apiVersions
+
+
+https://github.com/FairwindsOps/pluto
+
+```bash
+TODO 
+```
+
+
+6. Kubeval
+
+kubeval is a tool for validating a Kubernetes YAML or JSON configuration file. It does so using schemas generated from the Kubernetes OpenAPI specification, and therefore can validate schemas for multiple versions of Kubernetes.
+
+https://github.com/instrumenta/kubeval
+
+```bash
+TODO
+```
+
+7. Polaris
+
+Fairwinds' Polaris keeps your clusters sailing smoothly. It runs a variety of checks to ensure that Kubernetes pods and controllers are configured using best practices, helping you avoid problems in the future.
+
+Polaris can be run in three different modes:
+
+    As a dashboard, so you can audit what's running inside your cluster.
+    As an admission controller, so you can automatically reject workloads that don't adhere to your organization's policies.
+    As a command-line tool, so you can test local YAML files, e.g. as part of a CI/CD process.
+
+```bash
+polaris dashboard
+```
+
+
+https://github.com/FairwindsOps/Polaris
+
+
+
 
 ## END LAB
 
