@@ -518,8 +518,18 @@ So, long story short, finding the places where you have deployed a deprecated ap
 https://github.com/FairwindsOps/pluto
 
 ```bash
-TODO 
+pluto detect-files -o wide  -d .
 ```
+output
+<pre>
+NAME      NAMESPACE   KIND      VERSION              REPLACEMENT            DEPRECATED   DEPRECATED IN   REMOVED   REMOVED 
+IN
+ingress   <UNKNOWN>   Ingress   extensions/v1beta1   networking.k8s.io/v1   true         v1.14.0         true      v1.22.0 
+
+ingress   <UNKNOWN>   Ingress   extensions/v1beta1   networking.k8s.io/v1   true         v1.14.0         true      v1.22.0 
+
+</pre>
+
 
 
 6. Kubeval
@@ -529,7 +539,7 @@ kubeval is a tool for validating a Kubernetes YAML or JSON configuration file. I
 https://github.com/instrumenta/kubeval
 
 ```bash
-TODO
+kubeval --strict --ignore-missing-schemas -d ./deploy/
 ```
 
 7. Polaris
