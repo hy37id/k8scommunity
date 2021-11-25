@@ -518,7 +518,7 @@ So, long story short, finding the places where you have deployed a deprecated ap
 https://github.com/FairwindsOps/pluto
 
 ```bash
-pluto detect-files -o wide  -d .
+pluto detect-files -o wide  -d .  --target-versions k8s=v1.21
 ```
 output
 <pre>
@@ -539,7 +539,7 @@ kubeval is a tool for validating a Kubernetes YAML or JSON configuration file. I
 https://github.com/instrumenta/kubeval
 
 ```bash
-kubeval --strict --ignore-missing-schemas -d ./deploy/
+kubeval -v 1.21.0 --strict --ignore-missing-schemas --exit-on-error   -d ./k8s/
 ```
 
 7. Polaris
