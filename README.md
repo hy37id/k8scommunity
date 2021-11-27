@@ -6,6 +6,7 @@
 2. Kubectl            [Kubectl](https://kubernetes.io/docs/tasks/tools/)
 3. (OPTIONAL) Kubectx [Kubectx](https://github.com/ahmetb/kubectx)
 4. (OPTIONAL) VSCODE  [VSCODE] (https://code.visualstudio.com/) and plugins to validate YAML files
+5. 
 
 ## How to start with K8s on Azure?
 
