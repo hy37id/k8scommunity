@@ -5,9 +5,9 @@
 1. Azure CLI Install  [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 2. Kubectl            [Kubectl](https://kubernetes.io/docs/tasks/tools/)
 3. (OPTIONAL) Kubectx [Kubectx](https://github.com/ahmetb/kubectx)
-4. (OPTIONAL) VSCODE  [VSCODE] (https://code.visualstudio.com/) and plugins to validate YAML files
+4. (OPTIONAL) VSCODE  [VSCODE](https://code.visualstudio.com/) and plugins to validate YAML files
 
-[Cheat Sheet] (https://kubernetes.io/docs/reference/kubectl/cheatsheet/) 
+[Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/) 
 
 ## How to start with K8s on Azure?
 
